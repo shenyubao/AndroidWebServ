@@ -22,6 +22,7 @@ import org.apache.http.protocol.ResponseDate;
 import org.apache.http.protocol.ResponseServer;
 import org.join.ws.Constants.Config;
 import org.join.ws.serv.req.HttpDelHandler;
+import org.join.ws.serv.req.HttpDemoHandler;
 import org.join.ws.serv.req.HttpDownHandler;
 import org.join.ws.serv.req.HttpFBHandler;
 import org.join.ws.serv.req.HttpProgressHandler;
@@ -101,6 +102,7 @@ public class WebServer extends Thread {
             reqistry.register(UrlPattern.UPLOAD, new HttpUpHandler(webRoot));
             reqistry.register(UrlPattern.PROGRESS, new HttpProgressHandler());
             reqistry.register(UrlPattern.BROWSE, new HttpFBHandler(webRoot));
+//            reqistry.register(UrlPattern.BROWSE, new HttpDemoHandler());
             // 设置HTTP请求执行器
             httpService.setHandlerResolver(reqistry);
             // 回调通知服务开始

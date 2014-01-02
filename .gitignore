@@ -12,8 +12,8 @@ tmp/
 *.bak
 *.swp
 *~.nib
-# local.properties
-# .classpath
+local.properties
+.classpath
 .settings/
 .loadpath
 
@@ -162,3 +162,9 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+
+.classpath
+
+.classpath
+
+.classpath
