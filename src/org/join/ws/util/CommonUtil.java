@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 import java.util.Enumeration;
 import java.util.List;
 
+import org.apache.http.conn.util.InetAddressUtils;
 import org.join.ws.WSApplication;
 
 import android.app.ActivityManager;
@@ -92,26 +93,29 @@ public class CommonUtil {
      * @return null if network off
      */
     public String getLocalIpAddress() {
-        try {
-            // 遍历网络接口
-            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en
-                    .hasMoreElements();) {
-                NetworkInterface intf = en.nextElement();
-                // 遍历IP地址
-                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr
-                        .hasMoreElements();) {
-                    InetAddress inetAddress = enumIpAddr.nextElement();
-                    // 非回传地址时返回
-                    if (!inetAddress.isLoopbackAddress()) {
-                        return inetAddress.getHostAddress().toString();
-                    }
-                }
-            }
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+		try {
+			// 遍历网络接口
+			Enumeration<NetworkInterface> infos = NetworkInterface
+					.getNetworkInterfaces();
+			while (infos.hasMoreElements()) {
+				// 获取网络接口
+				NetworkInterface niFace = infos.nextElement();
+				Enumeration<InetAddress> enumIpAddr = niFace.getInetAddresses();
+				while (enumIpAddr.hasMoreElements()) {
+					InetAddress mInetAddress = enumIpAddr.nextElement();
+					// 所获取的网络地址不是127.0.0.1时返回得得到的IP
+					if (!mInetAddress.isLoopbackAddress()
+							&& InetAddressUtils.isIPv4Address(mInetAddress
+									.getHostAddress())) {
+						return mInetAddress.getHostAddress().toString();
+					}
+				}
+			}
+		} catch (SocketException e) {
+
+		}
+		return null;
+	}
 
     /**
      * @brief 判断外部存储是否挂载
